@@ -51,6 +51,17 @@ describe('ExecuteCommandsUseCase', () => {
     }
   });
 
+  it('rejects an unknown heading code with a clear error', () => {
+    expect(() =>
+      executeCommands({
+        grid: { width: 5, height: 5 },
+        start: { x: 0, y: 0, heading: 'X' as never },
+        obstacles: [],
+        commands: [],
+      }),
+    ).toThrowError(/heading/i);
+  });
+
   it('accepts obstacles defined in grid coordinates exactly', () => {
     const status = executeCommands({
       grid: { width: 5, height: 5 },
