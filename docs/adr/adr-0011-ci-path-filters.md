@@ -85,6 +85,7 @@ Any change outside those paths (README, docs/, spec/, .gitignore, LICENSE, etc.)
 - **IMP-002**: The stub workflow sets `timeout-minutes: 1` and `permissions: contents: read` for hygiene; it does not perform a checkout.
 - **IMP-003**: Changes to `.github/workflows/**` are intentionally considered "code" so edits to CI itself always run the real pipeline.
 - **IMP-004**: If a new file type begins living outside `src/`, `tests/`, or tooling files (e.g., a `benchmarks/` directory), it must be added to both YAML files in the same PR.
+- **IMP-005**: The two workflows use **distinct concurrency groups** (`ci-real-${{ github.ref }}` and `ci-docs-${{ github.ref }}`). A PR that touches both code and docs triggers both workflows; they must run independently so the combined required status check ends green. Sharing a single concurrency group would cause one to cancel the other and block merges.
 
 ## References
 
