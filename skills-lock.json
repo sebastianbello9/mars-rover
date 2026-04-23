@@ -1,0 +1,30 @@
+{
+  "version": 1,
+  "skills": {
+    "conventional-commit": {
+      "source": "github/awesome-copilot",
+      "sourceType": "github",
+      "computedHash": "f29c9486cede6c7b2df0cfb0a2e4aa67446552b991bcf17d1b309e903171f03d"
+    },
+    "create-architectural-decision-record": {
+      "source": "github/awesome-copilot",
+      "sourceType": "github",
+      "computedHash": "5c99e32293271aef0270c279c2af8b62301e29257bf85f2ebf7e810c740b4404"
+    },
+    "create-github-action-workflow-specification": {
+      "source": "github/awesome-copilot",
+      "sourceType": "github",
+      "computedHash": "527e6c77d921d58a9d0059aa95d0d14b441d2166f9c20518263048a56ca8fbbb"
+    },
+    "create-readme": {
+      "source": "github/awesome-copilot",
+      "sourceType": "github",
+      "computedHash": "d0ece1b2164ce1376e4ab6e98d6ac079df3a2a94f5f02224362b6a1ce2516ae9"
+    },
+    "github-issues": {
+      "source": "github/awesome-copilot",
+      "sourceType": "github",
+      "computedHash": "3a752d99ddc3178f443fe242d490800398b2b42030a9d221b298b9486d90cc87"
+    }
+  }
+}
