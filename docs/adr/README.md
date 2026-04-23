@@ -15,7 +15,8 @@ This directory holds the architectural decisions for the Mars Rover kata, record
 | [0007](adr-0007-cli-adapter.md)                     | CLI Adapter — stdin/argv → use case → stdout              | Accepted |
 | [0008](adr-0008-conventional-commits.md)            | Commit Convention — Conventional Commits 1.0.0            | Accepted |
 | [0009](adr-0009-branching-and-protection.md)        | Branching Model and Branch Protection                     | Accepted |
-| [0010](adr-0010-ci-pipeline.md)                     | CI Pipeline — GitHub Actions (lint · typecheck · test)    | Accepted |
+| [0010](adr-0010-ci-pipeline.md)                     | CI Pipeline — GitHub Actions (lint · typecheck · test)    | Superseded by 0011 |
+| [0011](adr-0011-ci-path-filters.md)                 | CI Path Filters with Required-Check Stub                  | Accepted |
 
 ## Conventions
 

@@ -1,0 +1,50 @@
+name: ci
+
+# Companion workflow that satisfies the required `ci` status check
+# when a change touches only documentation / spec / other non-code
+# files. It runs on the paths that `.github/workflows/ci.yml`
+# explicitly excludes, and trivially succeeds. Because both files
+# declare a job named `ci` under workflow name `ci`, GitHub surfaces
+# a single `ci` status context regardless of which workflow runs.
+
+on:
+  push:
+    branches: [main, develop]
+    paths-ignore:
+      - 'src/**'
+      - 'tests/**'
+      - 'package.json'
+      - 'package-lock.json'
+      - 'tsconfig*.json'
+      - 'vitest.config.ts'
+      - '.eslintrc.cjs'
+      - '.prettierrc'
+      - '.github/workflows/**'
+  pull_request:
+    branches: [main, develop]
+    paths-ignore:
+      - 'src/**'
+      - 'tests/**'
+      - 'package.json'
+      - 'package-lock.json'
+      - 'tsconfig*.json'
+      - 'vitest.config.ts'
+      - '.eslintrc.cjs'
+      - '.prettierrc'
+      - '.github/workflows/**'
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ci-docs-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  ci:
+    name: ci
+    runs-on: ubuntu-latest
+    timeout-minutes: 1
+    steps:
+      - name: Docs-only change — skipping code checks
+        run: echo "No code paths changed; reporting ci as green."
