@@ -1,6 +1,6 @@
 ---
 title: CI/CD Workflow Specification - CI
-version: 1.0
+version: 1.1
 date_created: 2026-04-22
 last_updated: 2026-04-22
 owner: Sebastián Bello
@@ -9,9 +9,9 @@ tags: [process, cicd, github-actions, automation, typescript, node, vitest]
 
 ## Workflow Overview
 
-**Purpose**: Verify every push and pull request on `main` / `develop` passes lint, typecheck, test, and coverage gates; publish coverage as an artifact.
-**Trigger Events**: `push` to `main` or `develop`; `pull_request` targeting `main` or `develop`.
-**Target Environments**: `ubuntu-latest` runners with Node.js 20.
+**Purpose**: Verify every push and pull request on `main` / `develop` that touches code / tooling passes lint, typecheck, test, and coverage gates; publish coverage as an artifact. For docs-only changes, satisfy the required `ci` status via a stub workflow that trivially succeeds (see ADR-0011).
+**Trigger Events**: `push` to `main` or `develop`; `pull_request` targeting either branch. **Path-filtered**: the heavy pipeline only runs when the changeset includes code/tooling paths (see Inputs below); otherwise the stub workflow at `.github/workflows/ci-docs.yml` runs and reports the same `ci` status.
+**Target Environments**: `ubuntu-latest` runners with Node.js 20 (heavy pipeline) / no runner work (stub).
 
 ## Execution Flow Diagram
 
@@ -75,8 +75,31 @@ The workflow has a single job named `ci`; its status context as reported to bran
 ### Inputs
 
 ```yaml
-# Repository triggers
+# Repository triggers (heavy pipeline — ci.yml)
 branches: [main, develop]
+paths:
+  - 'src/**'
+  - 'tests/**'
+  - 'package.json'
+  - 'package-lock.json'
+  - 'tsconfig*.json'
+  - 'vitest.config.ts'
+  - '.eslintrc.cjs'
+  - '.prettierrc'
+  - '.github/workflows/**'
+
+# Repository triggers (stub — ci-docs.yml)
+branches: [main, develop]
+paths-ignore:   # mirror of the list above
+  - 'src/**'
+  - 'tests/**'
+  - 'package.json'
+  - 'package-lock.json'
+  - 'tsconfig*.json'
+  - 'vitest.config.ts'
+  - '.eslintrc.cjs'
+  - '.prettierrc'
+  - '.github/workflows/**'
 ```
 
 No environment variables, secrets, or manual inputs are consumed.
@@ -207,12 +230,14 @@ None at v0.1.0. Future: release workflow will read the same branch protection co
 
 ### Version History
 
-| Version | Date       | Changes                 | Author             |
-| ------- | ---------- | ----------------------- | ------------------ |
-| 1.0     | 2026-04-22 | Initial specification   | Sebastián Bello    |
+| Version | Date       | Changes                                                 | Author             |
+| ------- | ---------- | ------------------------------------------------------- | ------------------ |
+| 1.0     | 2026-04-22 | Initial specification                                   | Sebastián Bello    |
+| 1.1     | 2026-04-22 | Path filters + stub workflow (ADR-0011); context = `ci` | Sebastián Bello    |
 
 ## Related Specifications
 
-- [ADR-0010: CI Pipeline](../docs/adr/adr-0010-ci-pipeline.md)
+- [ADR-0011: CI Path Filters with Required-Check Stub](../docs/adr/adr-0011-ci-path-filters.md)
+- [ADR-0010: CI Pipeline (superseded by 0011)](../docs/adr/adr-0010-ci-pipeline.md)
 - [ADR-0009: Branching and Protection](../docs/adr/adr-0009-branching-and-protection.md)
 - [ADR-0005: Testing Framework (Vitest)](../docs/adr/adr-0005-testing-framework-vitest.md)

@@ -1,9 +1,16 @@
 name: ci
 
+# Companion workflow that satisfies the required `ci` status check
+# when a change touches only documentation / spec / other non-code
+# files. It runs on the paths that `.github/workflows/ci.yml`
+# explicitly excludes, and trivially succeeds. Because both files
+# declare a job named `ci` under workflow name `ci`, GitHub surfaces
+# a single `ci` status context regardless of which workflow runs.
+
 on:
   push:
     branches: [main, develop]
-    paths:
+    paths-ignore:
       - 'src/**'
       - 'tests/**'
       - 'package.json'
@@ -15,7 +22,7 @@ on:
       - '.github/workflows/**'
   pull_request:
     branches: [main, develop]
-    paths:
+    paths-ignore:
       - 'src/**'
       - 'tests/**'
       - 'package.json'
@@ -37,33 +44,7 @@ jobs:
   ci:
     name: ci
     runs-on: ubuntu-latest
-    timeout-minutes: 10
+    timeout-minutes: 1
     steps:
-      - name: Checkout
-        uses: actions/checkout@v4
-
-      - name: Setup Node.js
-        uses: actions/setup-node@v4
-        with:
-          node-version: '20'
-          cache: npm
-
-      - name: Install dependencies
-        run: npm ci
-
-      - name: Lint
-        run: npm run lint
-
-      - name: Typecheck
-        run: npm run typecheck
-
-      - name: Test with coverage
-        run: npm run test:coverage
-
-      - name: Upload coverage artifact
-        if: always()
-        uses: actions/upload-artifact@v4
-        with:
-          name: coverage
-          path: coverage/
-          retention-days: 14
+      - name: Docs-only change — skipping code checks
+        run: echo "No code paths changed; reporting ci as green."

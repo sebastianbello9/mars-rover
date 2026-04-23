@@ -1,18 +1,18 @@
 ---
 title: "ADR-0010: CI Pipeline (GitHub Actions)"
-status: "Accepted"
+status: "Superseded"
 date: "2026-04-22"
 authors: "Sebastián Bello"
 tags: ["architecture", "decision", "ci", "github-actions", "automation"]
 supersedes: ""
-superseded_by: ""
+superseded_by: "ADR-0011"
 ---
 
 # ADR-0010: CI Pipeline (GitHub Actions)
 
 ## Status
 
-**Accepted**
+**Superseded** by [ADR-0011](adr-0011-ci-path-filters.md), which adds a path-filter split across two workflow files to skip docs-only CI runs. ADR-0010's core shape (GitHub Actions, single `ci` job on `ubuntu-latest`, lint/typecheck/test/coverage) still applies; only the trigger is refined.
 
 ## Context
 

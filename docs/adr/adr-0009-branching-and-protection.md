@@ -49,7 +49,7 @@ PRs are **squash-merged** with `gh pr merge --squash --delete-branch`. The PR ti
 | `required_pull_request_reviews`   | 1 required PR, 0 approvers  | Force PR-based changes; solo-friendly (no required reviewer).  |
 | `dismiss_stale_reviews`           | `true`                      | Any new push invalidates prior approvals (future-proof).       |
 | `required_status_checks.strict`   | `true`                      | Branches must be up to date before merging.                    |
-| `required_status_checks.contexts` | `["ci / ci"]` (post-Phase 5) | CI job must be green.                                          |
+| `required_status_checks.contexts` | `["ci"]` (post-Phase 5)     | CI job must be green. GitHub reports the check by **job name**, so the context is just `ci` (not `ci / ci`). |
 | `required_linear_history`         | `true`                      | No merge commits; enforces squash/rebase workflow.             |
 | `allow_force_pushes`              | `false`                     | History is immutable once pushed.                              |
 | `allow_deletions`                 | `false`                     | Neither protected branch can be deleted.                       |
